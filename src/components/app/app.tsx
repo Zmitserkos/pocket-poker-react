@@ -1,10 +1,13 @@
 import React from 'react';
-import './App.sass';
+import './app.sass';
+import Poker from "../poker/poker";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      Pocket Poker
+      <div className="content">
+        <Poker />
+      </div>
     </div>
   );
 };
