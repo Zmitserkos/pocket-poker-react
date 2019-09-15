@@ -1,0 +1,22 @@
+.poker-label-rule
+  display: flex
+  justify-content: space-between
+  font: italic 26px "Times New Roman", Times, serif
+  text-transform: uppercase
+
+  > .description
+    flex: 1 0 auto
+
+  > .dots
+    flex: 0 1 auto
+    overflow: hidden
+
+    &::before
+      display: block
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: clip
+      content: ". . . . . . . . . . . . . . . . . . . . "
+
+  > .win
+    flex: 1 0 auto
