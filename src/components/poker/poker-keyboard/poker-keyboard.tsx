@@ -7,25 +7,25 @@ class PokerKeyboard extends Component {
     return (
       <div className="poker-keyboard">
         <div className="key hold1">
-          <PokerKey>Hold</PokerKey>
+          <PokerKey clickHandle={this.firstHoldKeyClickHandle}>Hold</PokerKey>
         </div>
         <div className="key hold2">
-          <PokerKey>Hold</PokerKey>
+          <PokerKey clickHandle={this.secondHoldKeyClickHandle}>Hold</PokerKey>
         </div>
         <div className="key hold3">
-          <PokerKey>Hold</PokerKey>
+          <PokerKey clickHandle={this.thirdHoldKeyClickHandle}>Hold</PokerKey>
         </div>
         <div className="key hold4">
-          <PokerKey>Hold</PokerKey>
+          <PokerKey clickHandle={this.fourthHoldKeyClickHandle}>Hold</PokerKey>
         </div>
         <div className="key hold5">
-          <PokerKey>Hold</PokerKey>
+          <PokerKey clickHandle={this.fifthHoldKeyClickHandle}>Hold</PokerKey>
         </div>
         <div className="key points">
-          <PokerKey>Game</PokerKey>
+          <PokerKey clickHandle={this.pointsKeyClickHandle}>Game</PokerKey>
         </div>
         <div className="key deal-draw">
-          <PokerKey>
+          <PokerKey clickHandle={this.dealDrawKeyClickHandle}>
             <span className="line -concise">Deal</span>
             <span className="line -concise">Draw</span>
           </PokerKey>
@@ -36,6 +36,28 @@ class PokerKeyboard extends Component {
       </div>
     )
   }
+
+  firstHoldKeyClickHandle() {
+  }
+
+  secondHoldKeyClickHandle() {
+  }
+
+  thirdHoldKeyClickHandle() {
+  }
+
+  fourthHoldKeyClickHandle() {
+  }
+
+  fifthHoldKeyClickHandle() {
+  }
+
+  pointsKeyClickHandle() {
+  }
+
+  dealDrawKeyClickHandle() {
+  }
+
 }
 
 export default PokerKeyboard;

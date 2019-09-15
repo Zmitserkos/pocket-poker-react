@@ -16,7 +16,7 @@ const PokerScreen: React.FC<PokerScreen> = ({isSwitchedOn, isGameOver, isWin, is
   const holdOrDrawElement = isHoldOrDraw ? <span className="hold-or-draw">HOLD or DRAW</span> : null;
   const gameOverElement = isGameOver ? <span className="game-over">GAME OVER</span> : null;
   const winElement = isWin ? <span className="win">WIN</span> : null;
-  const cardElements = cards.map(card => <div className="card"><PokerCard card={card} /></div>);
+  const cardElements = cards.map((card, index) => <div className="card" key={index + 1}><PokerCard card={card} /></div>);
   const pokerScreenContentElement = isSwitchedOn ? (
     <React.Fragment>
       <div className="header">
