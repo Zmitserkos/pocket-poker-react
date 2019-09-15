@@ -4,7 +4,7 @@ import Poker from "../poker/poker";
 
 const App: React.FC = () => {
   return (
-    <div className="App">
+    <div className="app">
       <div className="content">
         <Poker />
       </div>

@@ -1,0 +1,53 @@
+.poker-screen
+  height: 210px
+  margin-top: 50px
+  background: gray
+
+  > .header
+    display: grid
+    grid-template-columns: auto 28% 25%
+    grid-template-rows: 24px 24px
+    grid-template-areas: "hold-or-draw win score" "game-over win score"
+
+    height: 50px
+
+    > .hold-or-draw
+      grid-area: hold-or-draw
+      padding-left: 20px
+      font-size: 24px
+      text-align: start
+
+    > .game-over
+      grid-area: game-over
+      padding-left: 20px
+      font-size: 24px
+      text-align: start
+
+    > .win
+      grid-area: win
+      font-size: 48px
+      text-align: start
+
+    > .score
+      grid-area: score
+      display: flex
+      justify-content: flex-end
+      padding-right: 20px
+      font-size: 24px
+
+  > .main
+    display: flex
+    justify-content: space-between
+    align-items: stretch
+    height: 160px
+
+    > .card
+      width: 20%
+      border-right: 1px solid black
+      border-left: 1px solid black
+
+      &:first-child
+        border-left: none
+
+      &:last-child
+        border-right: none

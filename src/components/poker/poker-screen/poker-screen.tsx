@@ -1,26 +1,40 @@
 import React from 'react';
 import PokerCard from './poker-card/poker-card';
+import './poker-screen.sass';
+import {Card} from "../../../entities/card";
 
 export interface PokerScreen {
+  isSwitchedOn: boolean;
+  isGameOver: boolean;
+  isWin: boolean;
+  isHoldOrDraw: boolean;
   score: number;
-  cards: any[];
+  cards: Card[];
 }
 
-const PokerScreen: React.FC<PokerScreen> = ({score, cards}) => {
-  const cardElements = cards.map(card => <PokerCard card={card} />);
+const PokerScreen: React.FC<PokerScreen> = ({isSwitchedOn, isGameOver, isWin, isHoldOrDraw, score, cards}) => {
+  const holdOrDrawElement = isHoldOrDraw ? <span className="hold-or-draw">HOLD or DRAW</span> : null;
+  const gameOverElement = isGameOver ? <span className="game-over">GAME OVER</span> : null;
+  const winElement = isWin ? <span className="win">WIN</span> : null;
+  const cardElements = cards.map(card => <div className="card"><PokerCard card={card} /></div>);
+  const pokerScreenContentElement = isSwitchedOn ? (
+    <React.Fragment>
+      <div className="header">
+        {holdOrDrawElement}
+        {gameOverElement}
+        {winElement}
+        <span className="score">{score}</span>
+      </div>
+
+      <div className="main">
+        {cardElements}
+      </div>
+    </React.Fragment>
+  ) : null;
 
   return (
     <div className="poker-screen">
-      <div>
-        <span>HOLD or DRAW</span>
-        <span>GAME OVER</span>
-        <span>WIN</span>
-        <span>{score}</span>
-      </div>
-
-      <div>
-        {cardElements}
-      </div>
+      {pokerScreenContentElement}
     </div>
   );
 };
