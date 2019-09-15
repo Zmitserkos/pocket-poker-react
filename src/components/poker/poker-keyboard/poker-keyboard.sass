@@ -1,0 +1,43 @@
+.poker-keyboard
+  display: grid
+  grid-template-columns: 20% 20% 20% 20% 20%
+  grid-template-rows: 50% 50%
+  grid-template-areas: "hold1 hold2 hold3 hold4 hold5" ". points deal-draw music ."
+  width: calc(100% + 30px)
+  height: 160px
+  margin-top: 50px
+  margin-left: -15px
+  background: black
+
+  > .key
+    display: flex
+    justify-content: center
+
+    .line
+      &.-concise
+        font-size: 24px
+        line-height: 24px
+
+  > .hold1
+    grid-area: hold1
+
+  > .hold2
+    grid-area: hold2
+
+  > .hold3
+    grid-area: hold3
+
+  > .hold4
+    grid-area: hold4
+
+  > .hold5
+    grid-area: hold5
+
+  > .points
+    grid-area: points
+
+  > .deal-draw
+    grid-area: deal-draw
+
+  > .music
+    grid-area: music
