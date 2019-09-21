@@ -1,15 +1,26 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import './app.sass';
 import Poker from "../poker/poker";
+import {connect} from 'react-redux';
+import actions from '../../actions/actions';
 
-const App: React.FC = () => {
-  return (
-    <div className="app">
-      <div className="content">
-        <Poker />
+
+class App extends React.Component<any, any> {
+  render(): ReactNode {
+    return (
+      <div className="app">
+        <div className="content">
+          <Poker {...this.props}/>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
-export default App;
+function mapStateToProps(state: any) {
+  return {
+    cards: state.cards,
+  };
+}
+
+export default connect(mapStateToProps, actions)(App);
