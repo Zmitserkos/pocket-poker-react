@@ -1,7 +1,7 @@
 import React from 'react';
 import PokerCard from './poker-card/poker-card';
 import './poker-screen.sass';
-import {Card} from "../../../entities/card";
+import { Card } from '../../../entities/card';
 
 export interface PokerScreen {
   isSwitchedOn: boolean;

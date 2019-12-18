@@ -1,18 +1,18 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PokerLabel from './poker-label/poker-label';
 import PokerScreen from './poker-screen/poker-screen';
 import PokerKeyboard from './poker-keyboard/poker-keyboard';
 import './poker.sass';
-import {Card} from "../../entities/card";
+import { PokerGame } from '../../entities/poker-game';
+import { ScreenCardNumber } from '../../enums/screen-card-number.enum';
 
 class Poker extends React.Component<any, any> {
+
+  private pokerGame = new PokerGame();
+
   render() {
     const isSwitchedOn = true;
-    const isGameOver = true;
-    const isWin = true;
-    const isHoldOrDraw = true;
-    const score = 200;
-    const cards: Card[] = [];
+    const { isGameOver, isWin, isHoldOrDraw, score, cards } = this.props;
 
     return (
       <div className="poker">
@@ -27,9 +27,33 @@ class Poker extends React.Component<any, any> {
           cards={cards}
         />
 
-        <PokerKeyboard />
+        <PokerKeyboard
+          holdCard={this.holdCard.bind(this)}
+          startNewGame={this.startNewGame.bind(this)}
+          dealOrDraw={this.dealOrDraw.bind(this)}
+          score={score}
+        />
       </div>
     )
+  }
+
+  holdCard() {
+
+  }
+
+  dealOrDraw() {
+    const cards = this.pokerGame.getNewMez(5);
+
+    cards[0].screenNumber = ScreenCardNumber.First;
+    cards[1].screenNumber = ScreenCardNumber.Second;
+    cards[2].screenNumber = ScreenCardNumber.Third;
+    cards[3].screenNumber = ScreenCardNumber.Fourth;
+    cards[4].screenNumber = ScreenCardNumber.Fifth;
+
+    this.props.dealCards(cards);
+  }
+
+  startNewGame() {
   }
 }
 

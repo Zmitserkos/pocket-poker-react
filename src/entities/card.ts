@@ -1,12 +1,14 @@
 import { CardRank } from '../enums/card-rank.enum';
 import { CardSuit } from '../enums/card-suit.enum';
 import { CardData } from '../interfaces/card-data';
+import { ScreenCardNumber } from '../enums/screen-card-number.enum';
 
 export class Card {
   static readonly suitsCount = 4;
 
   rank: CardRank;
   suit: CardSuit;
+  screenNumber?: ScreenCardNumber;
   isHeld?: boolean;
   private _isFrozen?: boolean;
 
