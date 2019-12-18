@@ -8,5 +8,4 @@ export interface State {
   cards: Card[];
   isAnimating?: boolean;
   isInitialized?: boolean;
-  isSecondRound?: boolean;
 }

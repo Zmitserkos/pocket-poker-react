@@ -31,6 +31,8 @@ const mapDispatchToProps = (dispatch: any) => ({
   setCards: (cards: Card[]) => dispatch(actions.setCards(cards)),
   dealCards: (cards: Card[]) => dispatch(actions.dealCards(cards)),
   holdCard: (data: any) => dispatch(actions.holdCard(data)),
+  deal: (data: any) => dispatch(actions.deal(data)),
+  draw: (data: any) => dispatch(actions.draw(data)),
 });
 
 export default connect(

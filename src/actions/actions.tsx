@@ -38,6 +38,8 @@ const dealCards = function (cards: Card[]) {
       time += interval;
       index++;
     }
+
+    dispatch({ type: ActionType.DealCards });
   };
 };
 
@@ -48,8 +50,30 @@ const holdCard = function(data: HoldCardData) {
   };
 };
 
+const deal = function(data: any) {
+  return (dispatch: any) => {
+    dispatch(dealCards(data.cards));
+    dispatch({
+      type: ActionType.Deal,
+      payload: {
+        score: data.score,
+      },
+    });
+  };
+};
+
+const draw = function(data: any) {
+  return {
+    type: ActionType.Draw,
+    payload: {
+    },
+  };
+};
+
 export default {
   setCards,
   dealCards,
   holdCard,
+  deal,
+  draw,
 };

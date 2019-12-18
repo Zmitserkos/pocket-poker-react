@@ -1,8 +1,8 @@
-import React, {ReactNode} from 'react';
+import React, { ReactNode } from 'react';
 import './poker-card.sass';
-import {CardSuit} from '../../../../enums/card-suit.enum';
-import {CardRank} from "../../../../enums/card-rank.enum";
-import {Card} from "../../../../entities/card";
+import { CardSuit } from '../../../../enums/card-suit.enum';
+import { CardRank } from '../../../../enums/card-rank.enum';
+import { Card } from '../../../../entities/card';
 
 interface PokerCardProps {
   card: Card;
@@ -50,8 +50,7 @@ class PokerCard extends React.Component<PokerCardProps> {
 
     const heldElements = this.getHeldElements();
     const suitElement = this.getSuitElement();
-
-    return (
+    return ( this.props.card.isVisible ?
       <div className="poker-card">
         <div className="main">
           <span className="rank">{this.rankName}</span>
@@ -64,7 +63,7 @@ class PokerCard extends React.Component<PokerCardProps> {
             {suitElement}
           </span>
         </div>
-      </div>
+      </div> : null
     );
   }
 

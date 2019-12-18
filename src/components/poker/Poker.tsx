@@ -37,20 +37,28 @@ class Poker extends React.Component<any, any> {
     )
   }
 
-  holdCard() {
+  holdCard(cardNumber: ScreenCardNumber) {
+    // TODO: implement condition if () return;
 
+    this.pokerGame.hold(cardNumber);
+    this.props.holdCard({
+      cardNumber,
+      isHeld: this.pokerGame.cardsOnHand[cardNumber].isHeld,
+    });
   }
 
   dealOrDraw() {
-    const cards = this.pokerGame.getNewMez(5);
+    if (this.props.isAnimating || this.pokerGame.isGameOver) return;
 
-    cards[0].screenNumber = ScreenCardNumber.First;
-    cards[1].screenNumber = ScreenCardNumber.Second;
-    cards[2].screenNumber = ScreenCardNumber.Third;
-    cards[3].screenNumber = ScreenCardNumber.Fourth;
-    cards[4].screenNumber = ScreenCardNumber.Fifth;
+    if (!this.pokerGame.isFirstRound) {
+      const dealData = this.pokerGame.deal();
 
-    this.props.dealCards(cards);
+      this.props.deal(dealData);
+    } else {
+      const drawData = this.pokerGame.draw();
+
+      this.props.draw(drawData);
+    }
   }
 
   startNewGame() {

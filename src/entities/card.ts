@@ -10,6 +10,7 @@ export class Card {
   suit: CardSuit;
   screenNumber?: ScreenCardNumber;
   isHeld?: boolean;
+  isVisible = true;
   private _isFrozen?: boolean;
 
   constructor(data: CardData) {
