@@ -25,8 +25,8 @@ const reducer: Reducer<any> = (state: State = initialState, action) => {
 
   switch ((action as any).type) {
     case ActionType.SetCards:
-      action.payload.cards.map((card: Card) => newCards[Number(card.screenNumber)] = card);
-      return { ...state, cards: newCards, isAnimating: action.payload.isAnimating };
+      action.payload.map((card: Card) => newCards[Number(card.screenNumber)] = card);
+      return { ...state, cards: newCards };
     case ActionType.DealCards:
       return { ...state, isAnimating: true };
     case ActionType.HoldCard:
@@ -37,7 +37,15 @@ const reducer: Reducer<any> = (state: State = initialState, action) => {
       return { ...state, score: action.payload.score, cards: newCards, isWin: false };
     case ActionType.Draw:
       newCards.forEach((card: Card) => card.isVisible = card.isHeld ? card.isVisible : false);
-      return { ...state, cards: newCards};
+      return { ...state, cards: newCards, isHoldOrDraw: false, };
+    case ActionType.SetScreenData:
+      return {
+        ...state,
+        isHoldOrDraw: action.payload.isHoldOrDraw,
+        isGameOver: action.payload.isGameOver,
+        isWin: action.payload.isWin,
+        isAnimating: action.payload.isAnimating,
+      };
     default:
       return state;
   }

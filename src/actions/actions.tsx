@@ -1,5 +1,4 @@
 import { ActionType } from '../enums/action-type.enum';
-import { Card } from '../entities/card';
 import { ScreenCardNumber } from '../enums/screen-card-number.enum';
 
 export interface HoldCardData {
@@ -7,32 +6,29 @@ export interface HoldCardData {
   isHeld: boolean,
 }
 
-const setCards = function(cards: Card[]) {
-  return {
-    type: ActionType.SetCards,
-    payload: cards,
-  };
-};
-
-const dealCards = function (cards: Card[]) {
+const dealCards = function (data: any) {
   return (dispatch: any) => {
     const interval = 500;
-    const length = cards.length;
+    const length = data.cards.length;
     let index = 0;
     let time = 0;
 
     while(index < length) {
-      const newCard = cards[index];
-      const isAnimating = index !== length - 1;
+      const newCard = data.cards[index];
+      const isLast = index === length - 1;
 
       setTimeout(() => {
         dispatch({
           type: ActionType.SetCards,
-          payload: {
-            cards: [ newCard ],
-            isAnimating,
-          },
-        })
+          payload: [ newCard ],
+        });
+
+        if (isLast) {
+          dispatch({
+            type: ActionType.SetScreenData,
+            payload: data.screenData,
+          });
+        }
       }, time);
 
       time += interval;
@@ -52,7 +48,13 @@ const holdCard = function(data: HoldCardData) {
 
 const deal = function(data: any) {
   return (dispatch: any) => {
-    dispatch(dealCards(data.cards));
+    dispatch(dealCards({
+      cards: data.cards,
+      screenData: {
+        isHoldOrDraw: true,
+        isAnimating: false,
+      },
+    }));
     dispatch({
       type: ActionType.Deal,
       payload: {
@@ -71,8 +73,6 @@ const draw = function(data: any) {
 };
 
 export default {
-  setCards,
-  dealCards,
   holdCard,
   deal,
   draw,

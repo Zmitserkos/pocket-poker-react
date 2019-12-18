@@ -4,7 +4,6 @@ import Poker from '../poker/poker';
 import { connect } from 'react-redux';
 import actions from '../../actions/actions';
 import { State } from '../../interfaces/state';
-import { Card } from '../../entities/card';
 
 class App extends React.Component<any, any> {
   render(): ReactNode {
@@ -28,8 +27,6 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  setCards: (cards: Card[]) => dispatch(actions.setCards(cards)),
-  dealCards: (cards: Card[]) => dispatch(actions.dealCards(cards)),
   holdCard: (data: any) => dispatch(actions.holdCard(data)),
   deal: (data: any) => dispatch(actions.deal(data)),
   draw: (data: any) => dispatch(actions.draw(data)),
