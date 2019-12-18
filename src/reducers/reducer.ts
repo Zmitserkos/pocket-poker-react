@@ -21,12 +21,19 @@ export const initialState: State = {
 };
 
 const reducer: Reducer<any> = (state: State = initialState, action) => {
+  let newCards: Card[];
+
   switch ((action as any).type) {
     case ActionType.SetCards:
-      const newCards = state.cards.slice();
-      action.payload.map((card: Card) => newCards[Number(card.screenNumber)] = card);
-      return { ...state, cards: newCards };
-
+      newCards = state.cards.slice();
+      action.payload.cards.map((card: Card) => newCards[Number(card.screenNumber)] = card);
+      return { ...state, cards: newCards, isAnimating: action.payload.isAnimating };
+    case ActionType.DealCards:
+      return { ...state, isAnimating: true };
+    case ActionType.HoldCard:
+      newCards = state.cards.slice();
+      newCards[action.payload.cardNumber].isHeld = action.payload.isHeld;
+      return { ...state, cards: newCards};
     default:
       return state;
   }
