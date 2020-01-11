@@ -83,6 +83,8 @@ class Poker extends React.Component<any, any> {
   }
 
   startNewGame() {
+    this.pokerGame.restartGame();
+    this.dealOrDraw();
   }
 
   setInitAnimationFrame() {

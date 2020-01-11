@@ -147,6 +147,15 @@ export class PokerGame {
     }
   }
 
+  restartGame() {
+    this.score = PokerGame.initialScore;
+    this.deck.reset();
+    this.cardsOnHand = [];
+    this._isFirstRound = false;
+    this.roundCards = [];
+    this.rankCounts = [];
+  }
+
   private withdraw() {
     this.score -= PokerGame.scoreStep;
   }
