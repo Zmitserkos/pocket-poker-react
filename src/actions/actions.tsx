@@ -55,6 +55,7 @@ const deal = function(data: any) {
         isAnimating: false,
       },
     }));
+
     dispatch({
       type: ActionType.Deal,
       payload: {
@@ -65,10 +66,18 @@ const deal = function(data: any) {
 };
 
 const draw = function(data: any) {
-  return {
-    type: ActionType.Draw,
-    payload: {
-    },
+  return (dispatch: any) => {
+    dispatch(dealCards({
+      cards: data.cards,
+      screenData: {
+        isWin: data.isWin,
+        score: data.score,
+        isGameOver: true,
+        isAnimating: false,
+      },
+    }));
+
+    dispatch({ type: ActionType.Draw });
   };
 };
 

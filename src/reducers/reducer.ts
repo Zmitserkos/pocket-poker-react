@@ -34,7 +34,7 @@ const reducer: Reducer<any> = (state: State = initialState, action) => {
       return { ...state, cards: newCards};
     case ActionType.Deal:
       newCards.forEach((card: Card) => card.isVisible = false);
-      return { ...state, score: action.payload.score, cards: newCards, isWin: false };
+      return { ...state, score: action.payload.score, cards: newCards, isWin: false, isGameOver: false, };
     case ActionType.Draw:
       newCards.forEach((card: Card) => card.isVisible = card.isHeld ? card.isVisible : false);
       return { ...state, cards: newCards, isHoldOrDraw: false, };
@@ -45,6 +45,7 @@ const reducer: Reducer<any> = (state: State = initialState, action) => {
         isGameOver: action.payload.isGameOver,
         isWin: action.payload.isWin,
         isAnimating: action.payload.isAnimating,
+        score: action.payload.score !== undefined ? action.payload.score : state.score,
       };
     default:
       return state;

@@ -38,7 +38,7 @@ class Poker extends React.Component<any, any> {
   }
 
   holdCard(cardNumber: ScreenCardNumber) {
-    // TODO: implement condition if () return;
+    if (!this.pokerGame.isFirstRound || this.pokerGame.isGameOver) return;
 
     this.pokerGame.hold(cardNumber);
     this.props.holdCard({
