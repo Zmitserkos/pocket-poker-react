@@ -24,12 +24,14 @@ const mapStateToProps = (state: State) => ({
   score: state.score,
   cards: state.cards,
   isAnimating: state.isAnimating,
+  isInitialized: state.isInitialized,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   holdCard: (data: any) => dispatch(actions.holdCard(data)),
   deal: (data: any) => dispatch(actions.deal(data)),
   draw: (data: any) => dispatch(actions.draw(data)),
+  setScreenData: (data: any) => dispatch(actions.setScreenData(data)),
 });
 
 export default connect(

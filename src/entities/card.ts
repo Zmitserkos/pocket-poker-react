@@ -16,6 +16,12 @@ export class Card {
   constructor(data: CardData) {
     this.rank = data.rank;
     this.suit = data.suit;
+    this.screenNumber = data.screenNumber;
+  }
+
+  static clone(card: Card): Card {
+    const { rank, suit, screenNumber } = card;
+    return new Card({ rank, suit, screenNumber });
   }
 
   get isFrozen(): boolean {

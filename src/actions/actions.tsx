@@ -6,6 +6,20 @@ export interface HoldCardData {
   isHeld: boolean,
 }
 
+const setScreenData = function(data: any) {
+  return (dispatch: any) => {
+    dispatch({
+      type: ActionType.SetCards,
+      payload: data.newCards,
+    });
+
+    dispatch({
+      type: ActionType.SetHeaderData,
+      payload: data.screenData,
+    });
+  };
+};
+
 const dealCards = function (data: any) {
   return (dispatch: any) => {
     const interval = 500;
@@ -25,7 +39,7 @@ const dealCards = function (data: any) {
 
         if (isLast) {
           dispatch({
-            type: ActionType.SetScreenData,
+            type: ActionType.SetHeaderData,
             payload: data.screenData,
           });
         }
@@ -48,6 +62,12 @@ const holdCard = function(data: HoldCardData) {
 
 const deal = function(data: any) {
   return (dispatch: any) => {
+    if (!data.isInitialized) {
+      dispatch({
+        type: ActionType.Initialize,
+      });
+    }
+
     dispatch(dealCards({
       cards: data.cards,
       screenData: {
@@ -85,4 +105,5 @@ export default {
   holdCard,
   deal,
   draw,
+  setScreenData,
 };

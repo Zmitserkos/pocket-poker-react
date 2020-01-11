@@ -1,29 +1,24 @@
 import { Reducer } from 'redux';
 import { ActionType } from '../enums/action-type.enum';
 import { Card } from '../entities/card';
-import { CardRank } from '../enums/card-rank.enum';
-import { CardSuit } from '../enums/card-suit.enum';
 import { State } from '../interfaces/state';
-
-const royalFlush = [
-  new Card({ rank: CardRank.Ten, suit: CardSuit.Tiles }),
-  new Card({ rank: CardRank.Jack, suit: CardSuit.Tiles }),
-  new Card({ rank: CardRank.Queen, suit: CardSuit.Tiles }),
-  new Card({ rank: CardRank.King, suit: CardSuit.Tiles }),
-  new Card({ rank: CardRank.Ace, suit: CardSuit.Tiles }),
-];
+import { PokerGame } from '../entities/poker-game';
+import { Winning } from '../enums/winning.enum';
 
 export const initialState: State = {
-  cards: royalFlush,
-  score: 3999,
+  cards: PokerGame.royalFlush,
+  score: Winning.RoyalFlush,
   isWin: true,
   isAnimating: false,
+  isInitialized: false,
 };
 
 const reducer: Reducer<any> = (state: State = initialState, action) => {
   const newCards = state.cards.slice();
 
   switch ((action as any).type) {
+    case ActionType.Initialize:
+      return { ...state, isInitialized: true };
     case ActionType.SetCards:
       action.payload.map((card: Card) => newCards[Number(card.screenNumber)] = card);
       return { ...state, cards: newCards };
@@ -38,7 +33,7 @@ const reducer: Reducer<any> = (state: State = initialState, action) => {
     case ActionType.Draw:
       newCards.forEach((card: Card) => card.isVisible = card.isHeld ? card.isVisible : false);
       return { ...state, cards: newCards, isHoldOrDraw: false, };
-    case ActionType.SetScreenData:
+    case ActionType.SetHeaderData:
       return {
         ...state,
         isHoldOrDraw: action.payload.isHoldOrDraw,

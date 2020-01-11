@@ -3,11 +3,19 @@ import { Deck } from './deck';
 import { Winning } from '../enums/winning.enum';
 import { CardRank } from '../enums/card-rank.enum';
 import { ScreenCardNumber } from '../enums/screen-card-number.enum';
+import { CardSuit } from '../enums/card-suit.enum';
 
 export class PokerGame {
   static readonly initialScore = 200;
   static readonly scoreStep = 5;
   static readonly cardsOnHandCount = 5;
+  static readonly royalFlush = [
+    new Card({ rank: CardRank.Ten, suit: CardSuit.Tiles, screenNumber: ScreenCardNumber.First }),
+    new Card({ rank: CardRank.Jack, suit: CardSuit.Tiles, screenNumber: ScreenCardNumber.Second }),
+    new Card({ rank: CardRank.Queen, suit: CardSuit.Tiles, screenNumber: ScreenCardNumber.Third }),
+    new Card({ rank: CardRank.King, suit: CardSuit.Tiles, screenNumber: ScreenCardNumber.Fourth }),
+    new Card({ rank: CardRank.Ace, suit: CardSuit.Tiles, screenNumber: ScreenCardNumber.Fifth }),
+  ];
 
   cardsOnHand: Card[] = [];
   score: number;
