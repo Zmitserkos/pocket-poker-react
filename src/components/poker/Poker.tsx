@@ -3,22 +3,23 @@ import PokerLabel from './poker-label/poker-label';
 import PokerScreen from './poker-screen/poker-screen';
 import PokerKeyboard from './poker-keyboard/poker-keyboard';
 import './poker.sass';
-import { PokerGame } from '../../entities/poker-game';
-import { ScreenCardNumber } from '../../enums/screen-card-number.enum';
-import { Winning } from '../../enums/winning.enum';
-import { Card } from '../../entities/card';
-import { AnimationFrameNumber } from '../../enums/animation-frame-number.enum';
+import {PokerGame} from '../../entities/poker-game';
+import {ScreenCardNumber} from '../../enums/screen-card-number.enum';
+import {Winning} from '../../enums/winning.enum';
+import {Card} from '../../entities/card';
+import {AnimationFrameNumber} from '../../enums/animation-frame-number.enum';
+import {AnimationType} from "../../enums/animation-type.enum";
 
 class Poker extends React.Component<any, any> {
 
   private pokerGame = new PokerGame();
   private animationTimer: any;
-  private animationFrame = 0;
+  private animationFrame = AnimationFrameNumber.First;
   private readonly interval = 500;
 
   constructor(props: any) {
     super(props);
-    this.animationTimer = setInterval(() => this.setInitAnimationFrame(), this.interval);
+    this.props.initialize();
   }
 
   render() {
@@ -49,9 +50,10 @@ class Poker extends React.Component<any, any> {
   }
 
   shouldComponentUpdate(nextProps: any): boolean {
-    if (nextProps.isInitialized && this.animationTimer) {
-      clearInterval(this.animationTimer);
-      this.animationTimer = null;
+    if (!nextProps.animationType && this.animationTimer) {
+      this.clearAnimation();
+    } else if (nextProps.animationType && !this.animationTimer) {
+      this.setAnimation(nextProps.animationType);
     }
 
     return true;
@@ -68,12 +70,12 @@ class Poker extends React.Component<any, any> {
   }
 
   dealOrDraw() {
-    if (this.props.isAnimating || this.pokerGame.isGameOver) return;
+    if (this.props.isDealOrDrawFrozen || this.pokerGame.isGameOver) return;
 
     if (!this.pokerGame.isFirstRound) {
       const dealData = this.pokerGame.deal();
 
-      dealData.isInitialized = this.props.isInitialized;
+      dealData.animationType = this.props.animationType;
       this.props.deal(dealData);
     } else {
       const drawData = this.pokerGame.draw();
@@ -87,7 +89,24 @@ class Poker extends React.Component<any, any> {
     this.dealOrDraw();
   }
 
-  setInitAnimationFrame() {
+  private clearAnimation() {
+    clearInterval(this.animationTimer);
+    this.animationTimer = null;
+    this.animationFrame = AnimationFrameNumber.First;
+  }
+
+  private setAnimation(animationType: AnimationType) {
+    switch (animationType) {
+      case AnimationType.Initialization:
+        this.animationTimer = setInterval(() => this.setInitAnimationFrame(), this.interval);
+        break;
+      case AnimationType.Winning:
+        this.animationTimer = setInterval(() => this.setWinningAnimationFrame(), this.interval);
+        break
+    }
+  }
+
+  private setInitAnimationFrame() {
     switch (this.animationFrame) {
       case AnimationFrameNumber.First:
         this.setInitFirstFrame();
@@ -101,10 +120,10 @@ class Poker extends React.Component<any, any> {
   }
 
   private setInitFirstFrame() {
-    const newCards = PokerGame.royalFlush.map((card: Card) => Card.clone(card));
+    const newCards = this.getClonedCards(PokerGame.royalFlush);
 
-    newCards[ScreenCardNumber.Second].isVisible = false;
-    newCards[ScreenCardNumber.Fourth].isVisible = false;
+    [ ScreenCardNumber.Second, ScreenCardNumber.Fourth ]
+      .forEach(cardNumber => newCards[cardNumber].isVisible = false);
 
     this.props.setScreenData({
       newCards,
@@ -117,11 +136,10 @@ class Poker extends React.Component<any, any> {
   }
 
   private setInitSecondFrame() {
-    const newCards = PokerGame.royalFlush.map((card: Card) => Card.clone(card));
+    const newCards = this.getClonedCards(PokerGame.royalFlush);
 
-    newCards[ScreenCardNumber.First].isVisible = false;
-    newCards[ScreenCardNumber.Third].isVisible = false;
-    newCards[ScreenCardNumber.Fifth].isVisible = false;
+    [ ScreenCardNumber.First, ScreenCardNumber.Third, ScreenCardNumber.Fifth ]
+      .forEach(cardNumber => newCards[cardNumber].isVisible = false);
 
     this.props.setScreenData({
       newCards,
@@ -130,6 +148,51 @@ class Poker extends React.Component<any, any> {
         isGameOver: true,
       },
     });
+  }
+
+  private setWinningAnimationFrame() {
+    switch (this.animationFrame) {
+      case AnimationFrameNumber.First:
+        this.setWinningFirstFrame();
+        this.animationFrame = AnimationFrameNumber.Second;
+        break;
+      case AnimationFrameNumber.Second:
+        this.setWinningSecondFrame();
+        this.animationFrame = AnimationFrameNumber.First;
+        break;
+    }
+  }
+
+  private setWinningFirstFrame() {
+    const newCards = this.getClonedCards(this.pokerGame.cardsOnHand);
+
+    newCards.forEach((card: Card) => {
+      if (card.isWinning) {
+        card.isVisible = false;
+      }
+    });
+
+    this.props.setScreenData({
+      newCards,
+      screenData: {
+        isGameOver: true,
+      },
+    });
+  }
+
+  private setWinningSecondFrame() {
+    const newCards = this.getClonedCards(this.pokerGame.cardsOnHand);
+
+    this.props.setScreenData({
+      newCards,
+      screenData: {
+        isWin: true,
+      },
+    });
+  }
+
+  private getClonedCards(cards: Card[]): Card[] {
+    return cards.map((card: Card) => Card.clone(card));
   }
 
 }

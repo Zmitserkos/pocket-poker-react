@@ -6,4 +6,6 @@ export interface CardData {
   rank: CardRank;
   suit: CardSuit;
   screenNumber?: ScreenCardNumber;
+  isHeld?: boolean;
+  isWinning?: boolean;
 }

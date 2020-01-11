@@ -135,6 +135,7 @@ export class PokerGame {
     }
 
     const winning = this.getWinning();
+    this.setWinningCards(winning);
     this.score += winning;
 
     this.cardsOnHand.forEach((card: Card, index: number) => card.screenNumber = index);
@@ -231,6 +232,48 @@ export class PokerGame {
         card.freeze();
       }
     });
+  }
+
+  private setWinningCards(winning: number) {
+    if (!winning) {
+      return;
+    }
+
+    switch (winning) {
+      case Winning.RoyalFlush:
+      case Winning.StrightFlush:
+      case Winning.Flush:
+      case Winning.FullHouse:
+      case Winning.Stright:
+        this.markAllCardsAsWinning();
+        break;
+      case Winning.FourOfKind:
+        this.markRepeatedCardsAsWinning(4);
+        break;
+      case Winning.ThreeOfKind:
+        this.markRepeatedCardsAsWinning(3);
+        break;
+      case Winning.TwoPair:
+        this.markRepeatedCardsAsWinning(2);
+        break;
+      case Winning.JacksOrBetter:
+        this.markJacksOrBetterAsWinning();
+        break;
+    }
+  }
+
+  private markAllCardsAsWinning() {
+    this.cardsOnHand.forEach((card: Card) => card.isWinning = true);
+  }
+
+  private markRepeatedCardsAsWinning(rankCount: number) {
+    this.cardsOnHand.forEach((card: Card) => card.isWinning = this.rankCounts[card.rank] === rankCount);
+  }
+
+  private markJacksOrBetterAsWinning() {
+    this.cardsOnHand.forEach((card: Card) =>
+      card.isWinning = this.rankCounts[card.rank] === 2 && card.rank > CardRank.Ten
+    );
   }
 
 }

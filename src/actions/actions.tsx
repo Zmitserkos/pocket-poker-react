@@ -1,10 +1,18 @@
 import { ActionType } from '../enums/action-type.enum';
 import { ScreenCardNumber } from '../enums/screen-card-number.enum';
+import { AnimationType } from '../enums/animation-type.enum';
 
 export interface HoldCardData {
   cardNumber: ScreenCardNumber,
   isHeld: boolean,
 }
+
+const initialize = function () {
+  return {
+    type: ActionType.Animation,
+    payload: AnimationType.Initialization,
+  };
+};
 
 const setScreenData = function(data: any) {
   return (dispatch: any) => {
@@ -38,10 +46,7 @@ const dealCards = function (data: any) {
         });
 
         if (isLast) {
-          dispatch({
-            type: ActionType.SetHeaderData,
-            payload: data.screenData,
-          });
+          dispatchLastCardActions(dispatch, data.screenData);
         }
       }, time);
 
@@ -62,9 +67,10 @@ const holdCard = function(data: HoldCardData) {
 
 const deal = function(data: any) {
   return (dispatch: any) => {
-    if (!data.isInitialized) {
+    if (data.animationType) {
       dispatch({
-        type: ActionType.Initialize,
+        type: ActionType.Animation,
+        payload: AnimationType.None,
       });
     }
 
@@ -72,7 +78,7 @@ const deal = function(data: any) {
       cards: data.cards,
       screenData: {
         isHoldOrDraw: true,
-        isAnimating: false,
+        isDealOrDrawFrozen: false,
       },
     }));
 
@@ -93,7 +99,7 @@ const draw = function(data: any) {
         isWin: data.isWin,
         score: data.score,
         isGameOver: true,
-        isAnimating: false,
+        isDealOrDrawFrozen: false,
       },
     }));
 
@@ -101,7 +107,22 @@ const draw = function(data: any) {
   };
 };
 
+const dispatchLastCardActions = function(dispatch: any, screenData: any) {
+  if (screenData.isWin) {
+    dispatch({
+      type: ActionType.Animation,
+      payload: AnimationType.Winning,
+    });
+  }
+
+  dispatch({
+    type: ActionType.SetHeaderData,
+    payload: screenData,
+  });
+};
+
 export default {
+  initialize,
   holdCard,
   deal,
   draw,

@@ -23,11 +23,12 @@ const mapStateToProps = (state: State) => ({
   isHoldOrDraw: state.isHoldOrDraw,
   score: state.score,
   cards: state.cards,
-  isAnimating: state.isAnimating,
-  isInitialized: state.isInitialized,
+  isDealOrDrawFrozen: state.isDealOrDrawFrozen,
+  animationType: state.animationType,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
+  initialize: () => dispatch(actions.initialize()),
   holdCard: (data: any) => dispatch(actions.holdCard(data)),
   deal: (data: any) => dispatch(actions.deal(data)),
   draw: (data: any) => dispatch(actions.draw(data)),

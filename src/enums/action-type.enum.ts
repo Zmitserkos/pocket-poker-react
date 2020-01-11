@@ -1,5 +1,5 @@
 export enum ActionType {
-  Initialize = 'Initialize',
+  Animation = 'Animation',
   DealCards = 'DealCards',
   SetCards = 'SetCards',
   HoldCard = 'HoldCard',

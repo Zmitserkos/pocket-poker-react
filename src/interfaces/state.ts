@@ -1,4 +1,5 @@
 import { Card } from '../entities/card';
+import { AnimationType } from '../enums/animation-type.enum';
 
 export interface State {
   isGameOver?: boolean;
@@ -6,6 +7,6 @@ export interface State {
   isHoldOrDraw?: boolean;
   score?: number;
   cards: Card[];
-  isAnimating?: boolean;
-  isInitialized?: boolean;
+  isDealOrDrawFrozen?: boolean;
+  animationType?: AnimationType;
 }

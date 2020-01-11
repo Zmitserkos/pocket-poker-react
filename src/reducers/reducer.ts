@@ -4,26 +4,27 @@ import { Card } from '../entities/card';
 import { State } from '../interfaces/state';
 import { PokerGame } from '../entities/poker-game';
 import { Winning } from '../enums/winning.enum';
+import { AnimationType } from '../enums/animation-type.enum';
 
 export const initialState: State = {
   cards: PokerGame.royalFlush,
   score: Winning.RoyalFlush,
   isWin: true,
-  isAnimating: false,
-  isInitialized: false,
+  isDealOrDrawFrozen: true,
+  animationType: AnimationType.None,
 };
 
 const reducer: Reducer<any> = (state: State = initialState, action) => {
   const newCards = state.cards.slice();
 
   switch ((action as any).type) {
-    case ActionType.Initialize:
-      return { ...state, isInitialized: true };
+    case ActionType.Animation:
+      return { ...state, animationType: action.payload };
     case ActionType.SetCards:
       action.payload.map((card: Card) => newCards[Number(card.screenNumber)] = card);
       return { ...state, cards: newCards };
     case ActionType.DealCards:
-      return { ...state, isAnimating: true };
+      return { ...state, isDealOrDrawFrozen: true };
     case ActionType.HoldCard:
       newCards[action.payload.cardNumber].isHeld = action.payload.isHeld;
       return { ...state, cards: newCards};
@@ -39,7 +40,7 @@ const reducer: Reducer<any> = (state: State = initialState, action) => {
         isHoldOrDraw: action.payload.isHoldOrDraw,
         isGameOver: action.payload.isGameOver,
         isWin: action.payload.isWin,
-        isAnimating: action.payload.isAnimating,
+        isDealOrDrawFrozen: action.payload.isDealOrDrawFrozen,
         score: action.payload.score !== undefined ? action.payload.score : state.score,
       };
     default:
