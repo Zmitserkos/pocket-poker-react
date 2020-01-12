@@ -1,7 +1,7 @@
 import React from 'react';
 import './poker-label.sass';
 import PokerLabelRule from './poker-label-rule/poker-label-rule';
-import {Winning} from '../../../enums/winning.enum'
+import { Winning } from '../../../enums/winning.enum'
 
 const PokerLabel: React.FC = () => {
   return (

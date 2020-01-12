@@ -2,9 +2,11 @@ import React from 'react';
 import './poker-keyboard.sass';
 import PokerKey from './poker-key/poker-key';
 import { ScreenCardNumber } from '../../../enums/screen-card-number.enum';
+import { PokerKeyboardProps } from '../../../interfaces/poker-keyboard-props';
+import { State } from '../../../interfaces/state';
 
-class PokerKeyboard extends React.Component<any, any> {
-  constructor(props: any) {
+class PokerKeyboard extends React.Component<PokerKeyboardProps, State> {
+  constructor(props: PokerKeyboardProps) {
     super(props);
   }
 

@@ -2,11 +2,7 @@ import React, { ReactNode } from 'react';
 import './poker-card.sass';
 import { CardSuit } from '../../../../enums/card-suit.enum';
 import { CardRank } from '../../../../enums/card-rank.enum';
-import { Card } from '../../../../entities/card';
-
-interface PokerCardProps {
-  card: Card;
-}
+import { PokerCardProps } from '../../../../interfaces/poker-card-props';
 
 class PokerCard extends React.Component<PokerCardProps> {
 

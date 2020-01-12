@@ -1,12 +1,8 @@
 import React from 'react';
 import './poker-key.sass';
+import { PokerKeyProps } from '../../../../interfaces/poker-key-props';
 
-export interface PokerKeyData {
-  disabled?: boolean;
-  clickHandle?: any;
-}
-
-const PokerKey: React.FC<PokerKeyData> = (props) => {
+const PokerKey: React.FC<PokerKeyProps> = (props: PokerKeyProps) => {
   return (
     <button
       className={`poker-key ${props.disabled ? '-disabled' : ''}`}

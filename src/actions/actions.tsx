@@ -1,35 +1,35 @@
 import { ActionType } from '../enums/action-type.enum';
-import { ScreenCardNumber } from '../enums/screen-card-number.enum';
 import { AnimationType } from '../enums/animation-type.enum';
+import { ThunkDispatch } from 'redux-thunk';
+import { State } from '../interfaces/state';
+import { ScreenData } from '../interfaces/screen-data';
+import { HeldCardData } from '../interfaces/held-card-data';
+import { DealData } from '../interfaces/deal-data';
+import { DrawData } from '../interfaces/draw-data';
+import { ScreenHeaderData } from '../interfaces/screen-header-data';
+import { PokerAction } from '../interfaces/poker-action';
 
-export interface HoldCardData {
-  cardNumber: ScreenCardNumber,
-  isHeld: boolean,
-}
+const initialize = () => ({
+  type: ActionType.Animation,
+  payload: AnimationType.Initialization,
+});
 
-const initialize = function () {
-  return {
-    type: ActionType.Animation,
-    payload: AnimationType.Initialization,
-  };
-};
-
-const setScreenData = function(data: any) {
-  return (dispatch: any) => {
+const setScreenData = (data: ScreenData) => {
+  return (dispatch: ThunkDispatch<State, void, PokerAction>) => {
     dispatch({
       type: ActionType.SetCards,
-      payload: data.newCards,
+      payload: data.cards,
     });
 
     dispatch({
-      type: ActionType.SetHeaderData,
-      payload: data.screenData,
+      type: ActionType.SetScreenHeaderData,
+      payload: data.screenHeaderData,
     });
   };
 };
 
-const dealCards = function (data: any) {
-  return (dispatch: any) => {
+const dealCards = (data: ScreenData) => {
+  return (dispatch: ThunkDispatch<State, void, PokerAction>) => {
     const interval = 500;
     const length = data.cards.length;
     let index = 0;
@@ -46,7 +46,7 @@ const dealCards = function (data: any) {
         });
 
         if (isLast) {
-          dispatchLastCardActions(dispatch, data.screenData);
+          dispatchLastCardActions(dispatch, data.screenHeaderData);
         }
       }, time);
 
@@ -58,15 +58,15 @@ const dealCards = function (data: any) {
   };
 };
 
-const holdCard = function(data: HoldCardData) {
+const holdCard = (data: HeldCardData) => {
   return {
     type: ActionType.HoldCard,
     payload: data,
   };
 };
 
-const deal = function(data: any) {
-  return (dispatch: any) => {
+const deal = (data: DealData) => {
+  return (dispatch: ThunkDispatch<State, void, PokerAction>) => {
     if (data.animationType) {
       dispatch({
         type: ActionType.Animation,
@@ -76,7 +76,7 @@ const deal = function(data: any) {
 
     dispatch(dealCards({
       cards: data.cards,
-      screenData: {
+      screenHeaderData: {
         isHoldOrDraw: true,
         isDealOrDrawFrozen: false,
       },
@@ -91,11 +91,11 @@ const deal = function(data: any) {
   };
 };
 
-const draw = function(data: any) {
-  return (dispatch: any) => {
+const draw = (data: DrawData) => {
+  return (dispatch: ThunkDispatch<State, void, PokerAction>) => {
     dispatch(dealCards({
       cards: data.cards,
-      screenData: {
+      screenHeaderData: {
         isWin: data.isWin,
         score: data.score,
         isGameOver: true,
@@ -107,7 +107,7 @@ const draw = function(data: any) {
   };
 };
 
-const dispatchLastCardActions = function(dispatch: any, screenData: any) {
+const dispatchLastCardActions = (dispatch: ThunkDispatch<State, void, PokerAction>, screenData: ScreenHeaderData) => {
   if (screenData.isWin) {
     dispatch({
       type: ActionType.Animation,
@@ -116,7 +116,7 @@ const dispatchLastCardActions = function(dispatch: any, screenData: any) {
   }
 
   dispatch({
-    type: ActionType.SetHeaderData,
+    type: ActionType.SetScreenHeaderData,
     payload: screenData,
   });
 };

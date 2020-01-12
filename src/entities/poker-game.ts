@@ -4,6 +4,8 @@ import { Winning } from '../enums/winning.enum';
 import { CardRank } from '../enums/card-rank.enum';
 import { ScreenCardNumber } from '../enums/screen-card-number.enum';
 import { CardSuit } from '../enums/card-suit.enum';
+import { DrawData } from '../interfaces/draw-data';
+import { DealData } from '../interfaces/deal-data';
 
 export class PokerGame {
   static readonly initialScore = 200;
@@ -86,7 +88,7 @@ export class PokerGame {
     return this.rankCounts.slice(CardRank.Jack).includes(2);
   }
 
-  deal(): any {
+  deal(): DealData {
     this._isFirstRound = true;
     this.withdraw();
     this.resetRoundCards();
@@ -112,7 +114,7 @@ export class PokerGame {
     card.isHeld = !card.isHeld;
   }
 
-  draw(): any {
+  draw(): DrawData {
     this._isFirstRound = false;
     this.freezeHeldCards();
     const newCardsIndexes = this.getNewCardIndexes();

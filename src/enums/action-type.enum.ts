@@ -5,5 +5,5 @@ export enum ActionType {
   HoldCard = 'HoldCard',
   Deal = 'Deal',
   Draw = 'Draw',
-  SetHeaderData = 'SetHeaderData',
+  SetScreenHeaderData = 'SetScreenHeaderData',
 }

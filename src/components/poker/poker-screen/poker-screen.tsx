@@ -1,23 +1,14 @@
 import React from 'react';
 import PokerCard from './poker-card/poker-card';
 import './poker-screen.sass';
-import { Card } from '../../../entities/card';
+import { PokerScreenProps } from '../../../interfaces/poker-screen-props';
 
-export interface PokerScreen {
-  isSwitchedOn: boolean;
-  isGameOver: boolean;
-  isWin: boolean;
-  isHoldOrDraw: boolean;
-  score: number;
-  cards: Card[];
-}
-
-const PokerScreen: React.FC<PokerScreen> = ({isSwitchedOn, isGameOver, isWin, isHoldOrDraw, score, cards}) => {
+const PokerScreen: React.FC<PokerScreenProps> = ({isGameOver, isWin, isHoldOrDraw, score, cards}: PokerScreenProps) => {
   const holdOrDrawElement = isHoldOrDraw ? <span className="hold-or-draw">HOLD or DRAW</span> : null;
   const gameOverElement = isGameOver ? <span className="game-over">GAME OVER</span> : null;
   const winElement = isWin ? <span className="win">WIN</span> : null;
   const cardElements = cards.map((card, index) => <div className="card" key={index + 1}><PokerCard card={card} /></div>);
-  const pokerScreenContentElement = isSwitchedOn ? (
+  const pokerScreenContentElement = (
     <React.Fragment>
       <div className="header">
         {holdOrDrawElement}
@@ -30,7 +21,7 @@ const PokerScreen: React.FC<PokerScreen> = ({isSwitchedOn, isGameOver, isWin, is
         {cardElements}
       </div>
     </React.Fragment>
-  ) : null;
+  );
 
   return (
     <div className="poker-screen">

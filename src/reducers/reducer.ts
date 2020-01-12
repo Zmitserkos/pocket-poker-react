@@ -5,6 +5,7 @@ import { State } from '../interfaces/state';
 import { PokerGame } from '../entities/poker-game';
 import { Winning } from '../enums/winning.enum';
 import { AnimationType } from '../enums/animation-type.enum';
+import { PokerAction } from '../interfaces/poker-action';
 
 export const initialState: State = {
   cards: PokerGame.royalFlush,
@@ -14,10 +15,10 @@ export const initialState: State = {
   animationType: AnimationType.None,
 };
 
-const reducer: Reducer<any> = (state: State = initialState, action) => {
+const reducer: Reducer<State, PokerAction> = (state: State = initialState, action: PokerAction) => {
   const newCards = state.cards.slice();
 
-  switch ((action as any).type) {
+  switch (action.type) {
     case ActionType.Animation:
       return { ...state, animationType: action.payload };
     case ActionType.SetCards:
@@ -34,7 +35,7 @@ const reducer: Reducer<any> = (state: State = initialState, action) => {
     case ActionType.Draw:
       newCards.forEach((card: Card) => card.isVisible = card.isHeld ? card.isVisible : false);
       return { ...state, cards: newCards, isHoldOrDraw: false, };
-    case ActionType.SetHeaderData:
+    case ActionType.SetScreenHeaderData:
       return {
         ...state,
         isHoldOrDraw: action.payload.isHoldOrDraw,

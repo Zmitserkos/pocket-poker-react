@@ -1,13 +1,8 @@
 import React from 'react';
 import './poker-label-rule.sass';
-import {Winning} from '../../../../enums/winning.enum';
+import { PokerLabelRuleProps } from '../../../../interfaces/poker-label-rule-props';
 
-interface PokerLabelRuleProps {
-  description: string;
-  win: Winning;
-}
-
-const PokerLabelRule: React.FC<PokerLabelRuleProps> = ({description, win}) => {
+const PokerLabelRule: React.FC<PokerLabelRuleProps> = ({description, win}: PokerLabelRuleProps) => {
   return (
     <div className="poker-label-rule">
       <span className="description">{description}</span>
