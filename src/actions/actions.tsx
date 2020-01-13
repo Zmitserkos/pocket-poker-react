@@ -54,7 +54,12 @@ const dealCards = (data: ScreenData) => {
       index++;
     }
 
-    dispatch({ type: ActionType.DealCards });
+    if (!length) {
+      data.screenHeaderData.isDealOrDrawFrozen = false;
+      dispatchLastCardActions(dispatch, data.screenHeaderData);
+    } else {
+      dispatch({ type: ActionType.DealCards });
+    }
   };
 };
 
